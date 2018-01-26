@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+<div id="images"></div>
+<div id="videos"></div>
+<script type="text/javascript">
+
+
+'use strict';
+  function getFiles(dir){
+    fileList = [];
+ 
+    var files = fs.readdirSync(dir);
+    for(var i in files){
+        if (!files.hasOwnProperty(i)) continue;
+        var name = dir+'/'+files[i];
+        if (!fs.statSync(name).isDirectory()){
+            fileList.push(name);
+        }
+    }
+    return fileList;
+}
+
+/*var files=getFiles('recording');
+
+for (var i = 0; i < files.length; i++) {
+  alert(files[i]);
+}
+*/
+</script> 
+<a href="recording.zip" download> download</a>
+<script type="text/javascript">
+function readTextFile(file)
+{
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    var allText='';
+    rawFile.onreadystatechange = function ()
+    {
+        if(rawFile.readyState === 4)
+        {
+            if(rawFile.status === 200 || rawFile.status == 0)
+            {
+                allText = rawFile.responseText;
+              //  alert(allText);
+            }
+        }
+    }
+    rawFile.send(null);
+    return allText;
+}
+
+
+
+
+
+
+    var events_name=new Array();
+  var events=new Array();
+   var dates=new Array();
+   xml_toarray();
+   conversion();
+function conversion() {
+  for (var i = 0; i < events.length; i++) {
+    var d=new Date(events[i]);
+    dates.push(d);
+    
+  }
+
+  for (var i = 0; i < dates.length; i++) {
+    
+  
+    dates.sort(function(a,b){return a.getTime() - b.getTime()});
+     }
+   
+    
+     
+    
+   
+    
+     }
+
+
+
+  var i=0;
+  
+play();
+readImages();
+readVideos();
+function play() {
+     
+  
+      var g=document.createElement("div");
+      g.setAttribute("id", "number");
+      document.body.appendChild(g);
+    // document.getElementById("number").innerHTML="" 
+  document.getElementById("number").innerHTML=""+events_name[i]+"";
+  i++;
+    setTimeout("play()",7000);
+    
+
+   for (var j = 0; j < dates.length; j++) {
+   // alert(dates[j]);
+      var index=getIndex(dates[j].toString());
+      
+      if(index!=-1) 
+      {
+        // alert(events_name[index]);
+      }
+      
+     
+ }
+
+     
+ 
+
+   
+   
+ //  document.getElementById("number").remove();
+}
+
+function readxml() {
+var txt=readTextFile("recording.xml");
+if (window.DOMParser)
+  {
+  parser=new DOMParser();
+  xmlDoc=parser.parseFromString(txt,"text/xml");
+  }
+else // Internet Explorer
+  {
+  xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+  xmlDoc.async=false;
+  xmlDoc.loadXML(txt);
+  }
+
+//alert(xmlDoc.getElementsByTagName("open-cam")[0].childNodes[0].nodeValue);
+
+var open_room=xmlDoc.getElementsByTagName("open-room")[0].childNodes[0].nodeValue;
+if (open_room!=null) {
+var res = open_room.split("/"); 
+events_name.push(open_room);
+events.push(res[0]);
+
+}
+
+if (open_mic!=null) {
+var open_mic=xmlDoc.getElementsByTagName("open-mic")[0].childNodes[0].nodeValue;
+var res = open_mic.split("/"); 
+events_name.push(open_mic);
+events.push(res[0]);
+
+
+}
+
+
+if (share_files!=null) {
+var share_files=xmlDoc.getElementsByTagName("share-files")[0].childNodes[0].nodeValue;
+var res = share_files.split("/"); 
+events_name.push(share_files);
+events.push(res[0]);
+
+}
+
+
+if (open_cam!=null) {
+var open_cam=xmlDoc.getElementsByTagName("open-cam")[0].childNodes[0].nodeValue;
+var res = open_cam.split("/"); 
+events_name.push(open_cam);
+events.push(res[0]);
+
+
+}
+
+
+}
+
+
+function xml_toarray() {
+  readxml();
+  
+  for (var i = 0; i < events_name.length; i++) {
+    //alert(events_name[i]);
+  }
+
+}
+
+
+
+function getIndex(word) {
+  var index;
+  for (var i = 0; i < events_name.length; i++) {
+  //  alert(events_name[i]+" par "+word);
+    if (events_name[i].indexOf(word)!=-1 ) {
+          index=i;
+           
+          
+    }
+     
+  }
+  //alert(word+" index "+index);
+  return index;
+}
+
+function readImages() {
+var txt=readTextFile("images.xml");
+if (window.DOMParser)
+  {
+  parser=new DOMParser();
+  xmlDoc=parser.parseFromString(txt,"text/xml");
+  }
+else // Internet Explorer
+  {
+  xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+  xmlDoc.async=false;
+  xmlDoc.loadXML(txt);
+  }
+
+//alert(xmlDoc.getElementsByTagName("img")[0].childNodes[0].nodeValue);
+var images=xmlDoc.getElementsByTagName("img");
+for (var i =0;i< images.length ;  i++)
+   {
+      //alert(xmlDoc.getElementsByTagName("img")[i].childNodes[0].nodeValue);
+      createImages(xmlDoc.getElementsByTagName("img")[i].childNodes[0].nodeValue);
+   }
+  
+}
+
+
+function createImages(name) {
+  var img = document.createElement("img");
+  img.src=name;
+  img.width=100;
+  img.height=100;
+  document.getElementById('images').appendChild(img);
+}
+
+
+function readVideos() {
+var txt=readTextFile("videos.xml");
+if (window.DOMParser)
+  {
+  parser=new DOMParser();
+  xmlDoc=parser.parseFromString(txt,"text/xml");
+  }
+else // Internet Explorer
+  {
+  xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+  xmlDoc.async=false;
+  xmlDoc.loadXML(txt);
+  }
+
+//alert(xmlDoc.getElementsByTagName("img")[0].childNodes[0].nodeValue);
+var videos=xmlDoc.getElementsByTagName("video");
+for (var i =0;i< videos.length ;  i++)
+   {
+      //alert(xmlDoc.getElementsByTagName("video")[i].childNodes[0].nodeValue);
+      createVideos(xmlDoc.getElementsByTagName("video")[i].childNodes[0].nodeValue);
+   }
+  
+}
+function createVideos(name) {
+  var video = document.createElement("video");
+ // video.setAttribute("controls autoplay","");
+  var source = document.createElement("source");
+  source.src=name;
+  source.width=500;
+  source.height=500;
+  source.type='video/webm';
+      video.appendChild(source);
+      video.autoplay = true;
+      video.load(); 
+  document.getElementById('videos').appendChild(video);
+
+}
+
+</script>
+</body>
+</html>

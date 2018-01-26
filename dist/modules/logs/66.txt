@@ -1,0 +1,10 @@
+Tue Nov 22 2016 21:30:41 GMT+0100 (Paris, Madrid) df open room 66 
+ 
+Tue Nov 22 2016 21:30:58 GMT+0100 ahmed join room 66 
+ 
+Tue Nov 22 2016 21:30:58 GMT+0100 username join room 66 
+ 
+Thu Dec 08 2016 14:20:16 GMT+0100 (Paris, Madrid) username open room 66 
+ 
+Thu Dec 08 2016 14:21:58 GMT+0100 (Paris, Madrid) username open room 66 
+ 

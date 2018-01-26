@@ -1,0 +1,445 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+
+    <title>Conference Video</title>
+    <style>
+        video {
+            object-fit: fill;
+            width: 30%;
+        }
+        button,
+        input,
+        select {
+            font-weight: normal;
+            padding: 2px 4px;
+            text-decoration: none;
+            display: inline-block;
+            text-shadow: none;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .make-center {
+            text-align: center;
+            padding: 5px 10px;
+        }
+    </style>
+    <link rel="stylesheet" href="css/jquery.ui/jquery-ui.css">
+      <script src="dist/jquery/jquery-1.12.4.js"></script>
+  <script src="dist/jquery/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#tabs" ).tabs();
+  } );
+  ;
+  </script>
+  <link rel="stylesheet" type="text/css" href="css/record/record.css">
+
+
+
+<!--<link href="css/canvas/style.css" rel="stylesheet">
+        <link href="css/canvas/scrol-bars.css" rel="stylesheet">-->
+        <link href="css/canvas/canvas_style.css" rel="stylesheet">
+
+
+
+</head>
+
+<body >
+ 
+<input type="hidden" value="" id="room_id"/>
+       <script>
+      var my_var = document.getElementById('room_id').value;
+      
+       </script>
+
+
+    <div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">conference video</a></li>
+    <li><a href="#tabs-2">enregistrement</a></li>
+    <li><a id="getusers" href="#tabs-3">users</a></li> 
+    <li><a id="getrooms" href="#tabs-4">rooms</a></li> 
+    <li><a id="getlogs" href="#tabs-5">logs</a></li> 
+    <li><a id="getoptions" href="#tabs-6">option</a></li> 
+    <li><a id="canvs" href="#tabs-7">canvas</a></li> 
+    <li><a href="#tabs-8">shortcut canvas</a></li>
+    <li><a href="#tabs-9">share canvas</a></li>
+    <li><a href="#tabs-10">option canvas</a></li>
+  </ul>
+  <div id="tabs-1">
+        <!-- modules  conference file sharing-->
+        <h1 id="name"></h1>
+        <section class="experiment">
+            <div id="menu_boutton" class="make-center">
+                <input type="text" id="room-id" value="abcdef">
+                <button id="open-room">Open Room</button>
+                <button id="join-room">Join Room</button>
+             
+                <button id="open-or-join-room">Auto Open Or Join Room</button>
+
+                <br><br>
+                <input type="text" id="input-text-chat" placeholder="Enter Text Chat" disabled>
+                <button id="share-file" disabled>Share File</button>
+                <br><br>
+                <button id="btn-leave-room" disabled>Leave /or close the room</button>
+                <button id="recording" >Recording</button> 
+                <button id="stoprecording" >Stop Recording</button> 
+                <div id="downloadlink"></div>
+                <div id="room-urls" style="text-align: center;display: none;background: #F1EDED;margin: 15px -10px;border: 1px solid rgb(189, 189, 189);border-left: 0;border-right: 0;"></div>
+            </div>
+
+            <div id="chat-container">
+                <div id="file-container"></div>
+                <div class="chat-output"></div>
+            </div>
+
+            <div id="videos-container"></div>
+            <div id="msg"></div>
+           
+
+
+        </section>
+  </div>
+   
+
+    
+
+
+  <div id="tabs-2">
+     <section class="experiment recordrtc">
+            <h2 class="header">
+                <select class="recording-media">
+                    <option value="record-video">Video</option>
+                    <option value="record-audio">Audio</option>
+                    <option value="record-screen">Screen</option>
+                </select>
+                
+                into
+                <select class="media-container-format">
+                    <option>WebM</option>
+                    <option disabled>Mp4</option>
+                    <option disabled>WAV</option>
+                    <option disabled>Ogg</option>
+                    <option>Gif</option>
+                </select>
+                
+                <button>Start Recording</button>
+            </h2>
+            
+            <div style="text-align: center; display: none;">
+                <button id="save-to-disk">Save To Disk</button>
+                <button id="open-new-tab">Open New Tab</button>
+                <button id="upload-to-server">Upload To Server</button>
+            </div>
+            
+            <br>
+
+            <video controls muted></video>
+        </section>
+ 
+           <script>
+            (function() {
+                var params = {},
+                    r = /([^&=]+)=?([^&]*)/g;
+                function d(s) {
+                    return decodeURIComponent(s.replace(/\+/g, ' '));
+                }
+                var match, search = window.location.search;
+                while (match = r.exec(search.substring(1))) {
+                    params[d(match[1])] = d(match[2]);
+                    if(d(match[2]) === 'true' || d(match[2]) === 'false') {
+                        params[d(match[1])] = d(match[2]) === 'true' ? true : false;
+                    }
+                }
+                window.params = params;
+            })();
+
+        </script>
+     
+
+  </div>
+  <div id="tabs-3">
+      <div id="users">
+       
+          
+      </div>
+
+ </div>
+
+ <div id="tabs-4">
+
+   <div id="rooms">
+       
+          
+   </div>
+ </div>
+ <div id="tabs-5">
+  <a id="export_xml" href="#" download >export as xml</a>
+  <a id="export_text" href="#" download>export as text</a>
+  <div id="logs">
+
+  </div>
+ </div>
+
+
+ <div id="tabs-6">
+  <div id="pwd" ></div>
+  <div id="option-rooms" ></div>
+  <div id="option-interface" ></div>
+ </div>
+
+
+
+ <div id="tabs-7">
+
+   <section id="tool-box"  height="800" class="tool-box">
+        <canvas id="pencil-icon" width="40" height="40"></canvas>
+        <canvas id="eraser-icon" width="40" height="40"></canvas>
+        <canvas id="text-icon" width="40" height="40"></canvas>
+        <canvas id="image-icon" width="40" height="40"></canvas>
+
+    <canvas id="drag-last-path" width="40" height="40"></canvas>
+    <canvas id="drag-all-paths" width="40" height="40"></canvas>
+
+    <canvas id="line" class="selected-shape" width="40" height="40"></canvas>
+    <canvas id="arc" width="40" height="40"></canvas>
+    <canvas id="rectangle" width="40" height="40"></canvas>
+    <canvas id="quadratic-curve" width="40" height="40"></canvas>
+    <canvas id="bezier-curve" width="40" height="40"></canvas>
+
+    <canvas id="line-width" width="40" height="40"></canvas>
+    <canvas id="colors" width="40" height="40"></canvas>
+    <canvas id="additional" width="40" height="40"></canvas>
+  </section>
+
+  <div id="fade"></div>
+    
+  <script src="dist/modules/canvas/canvas-designer.js"></script>
+<script src="dist/modules/canvas/canvas-designer-widget.js"></script>
+
+<div id="widget-container" style="bottom: 0;right: 20%;left: 20%;height: 1000px;border: 1px solid black; border-top:0; border-bottom: 0;"></div>
+<br><br><br>
+<div id="action-controls" style="width: 19%; padding: 1%;position: absolute;left:0;">
+    
+    <h2>Select Tools</h2>
+    <input type="checkbox" id="pencil" checked>
+    <label for="pencil">pencil</label><br>
+
+    <input type="checkbox" id="marker" checked>
+    <label for="marker">marker</label><br>
+    
+    <input type="checkbox" id="eraser" checked>
+    <label for="eraser">eraser</label><br>
+    
+    <input type="checkbox" id="text" checked>
+    <label for="text">text</label><br>
+
+    <input type="checkbox" id="image" checked>
+    <label for="image">image</label><br>
+    
+    <input type="checkbox" id="line" checked>
+    <label for="line">line</label><br>
+
+    <input type="checkbox" id="arrow" checked>
+    <label for="arrow">arrow</label><br>
+    
+    <input type="checkbox" id="dragSingle" checked>
+    <label for="dragSingle">dragSingle</label><br>
+    
+    <input type="checkbox" id="dragMultiple" checked>
+    <label for="dragMultiple">dragMultiple</label><br>
+    
+    <input type="checkbox" id="arc" checked>
+    <label for="arc">arc</label><br>
+    
+    <input type="checkbox" id="rectangle" checked>
+    <label for="rectangle">rectangle</label><br>
+    
+    <input type="checkbox" id="quadratic" checked>
+    <label for="quadratic">quadratic</label><br>
+    
+    <input type="checkbox" id="bezier" checked>
+    <label for="bezier">bezier</label><br><br>
+    
+
+
+</div>
+<script type="text/javascript" src="dist/modules/canvas/is_presenter.js">
+        </script>
+<script type="text/javascript">
+
+setInterval(function() {
+            is_presenter();
+        }, 1000);
+</script>
+<div id="fade"></div>
+
+
+
+
+
+<div id="light" class="white_content">
+    <button id="btn-close-undo-popup" style="float:right;">x</button>
+
+    <select id="undo-options" size="4">
+        <option>Last Shape</option>
+        <option>All Shapes</option>
+        <option>Last Multiple</option>
+        <option disabled>Specific Range</option>
+    </select>
+
+    <div style="display: none;margin-top: 20px;margin-bottom: 20px;margin-right: 12px;float: right;">
+        Digit/Number:<br>
+        <input type="text" id="number-of-shapes-to-undo" style="padding: 0;width: 90px;text-align: center;border-radius: 0;margin-top: 6px;">
+    </div>
+
+    <br><br><br><br><br>
+
+    <button id="btn-undo" style="float:right;">Undo</button>
+</div>
+
+<div id="dataURL-popup" class="white_content">
+    <button id="btn-close-dataURL-popup" style="float:right;">x</button>
+
+    <select id="data-url-format" size="4">
+        <option>image/png</option>
+        <option>image/jpeg</option>
+        <option>image/gif</option>
+        <option>image/webp</option>
+    </select>
+
+    <br><br><br><br><br>
+
+    <button id="btn-getDataURL" style="float:right;">Get DataURL</button>
+</div>
+   
+
+
+ 
+
+
+
+ </div>
+
+
+
+
+<div id="tabs-8">
+    <h2>Shortcut Keys</h2>
+    ctrl+t (to display text-fonts box)<br>
+    ctrl+z (to undo last-single shape)<br>
+    ctrl+a (to select all shapes)<br>
+    ctrl+c (copy last-selected shape)<br>
+    ctrl+v (paste last-copied shape)<br><br>
+    ctrl+mousedown (to copy/paste all shapes)
+
+
+</div>
+
+
+
+<div id="tabs-9">
+    <div>
+        Number of users connected with you: <b id="number-of-connected-users">0</b>
+
+        <br><br>
+
+        <div id="hide-on-datachannel-opened">
+            You can open a private WebRTC room to sync dashboard with private users.
+
+            <br><br>
+
+            <input type="text" id="room-id-canvas" placeholder="room-id">
+            <button id="open-room-canvas">Open</button>
+        </div>
+    </div>
+
+
+</div>
+       
+
+
+       
+        <script src="http://localhost/recording/dist/modules/signalisation/RTCMultiConnection.min.js"></script>
+        <!--<script src="http://localhost/recording/socket.io/socket.io.js"></script>-->
+        <script type="text/javascript" src="dist/modules/recording_video/RecordRTC.js"></script>
+       <script type="text/javascript" src="http://localhost/recording/dist/modules/signalisation/socket.io/socket.io-1.4.5.js"></script>
+       
+        <!-- custom layout for HTML5 audio/video elements -->
+        <script src="http://localhost/recording/dist/modules/signalisation/getMediaElement.js"></script>
+        <script src="http://localhost/recording/dist/modules/signalisation/FileBufferReader.js"></script>
+         <script type="text/javascript" src="dist/modules/conference/ui.main.js"></script>
+         <script type="text/javascript" src="dist/modules/conference/peer_to_peer_connection.js"></script>
+         <script type="text/javascript" src="dist/modules/conference/handle_room.js"></script>
+        <script src="http://localhost/recording/dist/modules/signalisation/commits.js" async></script>
+
+        <script src="http://localhost/recording/dist/modules/users/users.js" async></script>
+        <script src="http://localhost/recording/dist/modules/rooms/rooms.js" async></script>
+       <script type="text/javascript" src="dist/modules/rooms/quit_room.js"></script>
+       <script type="text/javascript" src="dist/modules/logs/logs.js"></script>
+       <script type="text/javascript" src="dist/modules/option/room/options.js"></script>
+       <script type="text/javascript" src="dist/modules/option/interface/options.js"></script>
+       <script type="text/javascript" src="http://localhost/recording/dist/modules/users/user_presenter.js"></script>
+       <script type="text/javascript" src="http://localhost/recording/dist/modules/recording/recording.js"></script>
+          <script src="dist/modules/recording_video/gif-recorder.js"></script>
+     <script src="dist/modules/recording_video/getScreenId.js"></script>
+     <script src="dist/modules/recording_video/gumadapter.js"></script>
+      <script type="text/javascript" src="dist/modules/recording_video/record_video.js"></script>
+      <script type="text/javascript" src="dist/modules/rooms/active_rooms.js"></script>
+      <script type="text/javascript" src="dist/modules/recording/recording.js"></script>
+     <script src="dist/modules/canvas/canvas-designer-widget.js"></script>
+      <script src="dist/modules/canvas/canvas-designer.js"></script>
+         
+       <script type="text/javascript" src="dist/modules/canvas/canvas_remote.js">
+        </script>
+               <script type="text/javascript" src="dist/modules/canvas/common.js">
+        </script>
+        <script type="text/javascript" src="dist/modules/canvas/canvas_designer.js"></script> 
+        <script type="text/javascript" src="dist/modules/canvas/saveimages.js">
+         </script>
+       
+
+
+
+
+       
+       <script type="text/javascript">
+       sessionid=44;
+        document.getElementById("canvs").onclick=function() {
+          document.getElementById("pencil").click();
+        }
+           
+          
+       
+       document.getElementById('room-id').value="";
+         window.onbeforeunload = function () {
+        
+             document.getElementById("btn-leave-room").click();
+        // For IE and Firefox prior to version 4
+        
+          console.log(document.getElementById('room-id').value);
+           //document.getElementById("btn-leave-room").click(); 
+           log_out(connected_user,connection.sessionid);
+             delete_empty_room(connection.sessionid);
+        
+
+        // For Safari
+        return 'Any string';
+    };
+      window.onunload = function (e) {
+
+        document.getElementById("btn-leave-room").click();
+         
+      };
+   
+       </script>
+</body>
+
+</html>

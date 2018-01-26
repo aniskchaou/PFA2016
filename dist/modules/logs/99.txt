@@ -1,0 +1,4 @@
+Mon Nov 21 2016 19:31:05 GMT+0100 (Paris, Madrid) azaz open room 99 
+ 
+Mon Nov 21 2016 19:31:20 GMT+0100 (Paris, Madrid) as join room 99 
+ 

@@ -1,0 +1,12 @@
+Sun Nov 20 2016 21:47:14 GMT+0100 (Paris, Madrid) username open room 22 
+ 
+Mon Nov 21 2016 19:37:30 GMT+0100 (Paris, Madrid) username open room 22 
+ 
+Tue Nov 22 2016 18:11:44 GMT+0100 (Paris, Madrid) username open room 22 
+ 
+Thu Dec 08 2016 14:19:05 GMT+0100 (Paris, Madrid) username open room 22 
+ 
+Tue Jan 17 2017 19:00:25 GMT+0100 (Paris, Madrid) 33 open room 22 
+ 
+Tue Jan 17 2017 19:02:32 GMT+0100 (Paris, Madrid) lll join room 22 
+ 

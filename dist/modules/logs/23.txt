@@ -1,0 +1,4 @@
+Sat Dec 10 2016 11:02:50 GMT+0100 (Paris, Madrid) username open room 23 
+ 
+Sat Dec 10 2016 11:03:03 GMT+0100 (Paris, Madrid) username join room 23 
+ 

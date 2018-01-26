@@ -1,0 +1,15 @@
+<?php
+
+include 'connect_db.php';
+
+$select=$db->prepare('select * from user where presenter= 1');
+$select->execute( );
+$users=$select->fetchAll() ;
+
+echo $users[0]['name'];
+
+
+
+
+
+?>
